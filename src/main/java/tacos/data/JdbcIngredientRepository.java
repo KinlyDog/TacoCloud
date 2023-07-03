@@ -1,5 +1,6 @@
 package tacos.data;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import tacos.Ingredient;
@@ -13,6 +14,7 @@ public class JdbcIngredientRepository implements IngredientRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public JdbcIngredientRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -22,7 +24,6 @@ public class JdbcIngredientRepository implements IngredientRepository {
         return jdbcTemplate.query(
                 "select id, name, type from Ingredient",
                 this::mapRowToIngredient);
-
     }
 
     @Override
@@ -34,6 +35,7 @@ public class JdbcIngredientRepository implements IngredientRepository {
         return results.size() == 0 ?
                 Optional.empty() :
                 Optional.of(results.get(0));
+
     }
 
     private Ingredient mapRowToIngredient(ResultSet row, int rowNum)
@@ -42,7 +44,7 @@ public class JdbcIngredientRepository implements IngredientRepository {
         return new Ingredient(
                 row.getString("id"),
                 row.getString("name"),
-                Ingredient.Type.valueOf((row.getString("type"))));
+                Ingredient.Type.valueOf(row.getString("type")));
     }
 
     @Override
