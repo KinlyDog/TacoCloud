@@ -1,26 +1,28 @@
 package tacos.web;
 
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import tacos.Ingredient;
-import tacos.Taco;
+import tacos.Ingredient.Type;
 import tacos.TacoOrder;
+import tacos.Taco;
 import tacos.data.IngredientRepository;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Slf4j
+//@Slf4j
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
@@ -35,12 +37,13 @@ public class DesignTacoController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        Iterable<Ingredient> ingredients = ingredientRepo.findAll();
-        Ingredient.Type[] types = Ingredient.Type.values();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepo.findAll().forEach(i -> ingredients.add(i));
 
+        Ingredient.Type[] types = Ingredient.Type.values();
         for (Ingredient.Type type : types) {
             model.addAttribute(type.toString().toLowerCase(),
-                filterByType((List<Ingredient>) ingredients, type));
+                    filterByType(ingredients, type));
         }
     }
 
@@ -67,7 +70,7 @@ public class DesignTacoController {
         }
 
         tacoOrder.addTaco(taco);
-        log.info("Processing taco: {}", taco);
+//        log.info("Processing taco: {}", taco);
 
         return "redirect:/orders/current";
     }
