@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>sia</groupId>
-    <artifactId>taco-cloud-sd-jdbc</artifactId>
+    <artifactId>taco-cloud-sd-jpa</artifactId>
     <version>0.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -73,12 +73,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- tag::springDataJdbc[] -->
+        <!-- tag::springDataJpa[] -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- end::springDataJdbc[] -->
+        <!-- end::springDataJpa[] -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -119,6 +119,7 @@
     </pluginRepositories>
 
 </project>
+
 
 
 
